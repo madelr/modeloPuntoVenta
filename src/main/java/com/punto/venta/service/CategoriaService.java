@@ -21,10 +21,12 @@ public class CategoriaService {
                 .collect(Collectors.toList());
     }
 
-    public CategoriaDTO save(CategoriaDTO dto) {
-        Categoria categoria = convertToEntity(dto);
-        Categoria guardada = categoriaRepository.save(categoria);
-        return convertToDTO(guardada);
+    public CategoriaDTO crearCategoria(CategoriaDTO dto) {
+        boolean duplicado = categoriaRepository.existsByNombreIgnoreCase(dto.getNombre());
+        if (duplicado) {
+            throw new RuntimeException("La categoria ya existe");
+        }
+        return convertToDTO(categoriaRepository.save(convertToEntity(dto)));
     }
 
     public void eliminarCantegoria(Integer idCategoria) {

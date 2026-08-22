@@ -8,5 +8,5 @@ import com.punto.venta.entity.Producto;
 
 @Repository
 public interface ProductoRepository extends JpaRepository<Producto, Integer> {
-
+    boolean existsByNombreIgnoreCase(String nombre);
 }

@@ -39,6 +39,38 @@ public class ClienteService {
         return convertToDTO(clienteRepository.save(convertToEntity(dto)));
     }
 
+    public ClienteDTO actualizar(Integer idCliente, ClienteDTO dto) {
+        Cliente clienteExistente = clienteRepository.findById(idCliente)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente no encontrado"));
+        if (dto.getNombre() != null) {
+            clienteExistente.setNombre(dto.getNombre());
+        }
+        if (dto.getApellido() != null) {
+            clienteExistente.setApellido(dto.getApellido());
+        }
+        if (dto.getEmail() != null) {
+            clienteExistente.setEmail(dto.getEmail());
+        }
+        if (dto.getTelefono() != null) {
+            clienteExistente.setTelefono(dto.getTelefono());
+        }
+        return convertToDTO(clienteRepository.save(clienteExistente));
+    }
+
+    public ClienteDTO anularCliente(Integer idCliente) {
+        Cliente cliente = clienteRepository.findById(idCliente)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente no encontrado"));
+        cliente.setEstado(false);
+        return convertToDTO(clienteRepository.save(cliente));
+    }
+
+    public void eliminar(Integer idCliente) {
+        if (!clienteRepository.existsById(idCliente)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente no encontrado");
+        }
+        clienteRepository.deleteById(idCliente);
+    }
+
     private ClienteDTO convertToDTO(Cliente c) {
         ClienteDTO dto = new ClienteDTO();
         dto.setIdCliente(c.getIdCliente());

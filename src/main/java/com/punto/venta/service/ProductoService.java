@@ -25,6 +25,39 @@ public class ProductoService {
                 .collect(Collectors.toList());
     }
 
+    public ProductoDTO crear(ProductoDTO dto) {
+        boolean duplicado = productoRepository.existsByNombreIgnoreCase(dto.getNombre());
+        if (duplicado) {
+            throw new RuntimeException("El producto ya existe");
+        }
+        return convertToDTO(productoRepository.save(convertToEntity(dto)));
+    }
+
+    public ProductoDTO actualizar(Integer idProducto, ProductoDTO dto) {
+        Producto productoExistente = productoRepository.findById(idProducto)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        if (dto.getNombre() != null) {
+            productoExistente.setNombre(dto.getNombre());
+        }
+        if (dto.getDescripcion() != null) {
+            productoExistente.setDescripcion(dto.getDescripcion());
+        }
+        if (dto.getPrecio() != null) {
+            productoExistente.setPrecio(dto.getPrecio());
+        }
+        if (dto.getStock() != null) {
+            productoExistente.setStock(dto.getStock());
+        }
+        return convertToDTO(productoRepository.save(productoExistente));
+    }
+
+    public void eliminar(Integer idProducto) {
+        if (!productoRepository.existsById(idProducto)) {
+            throw new RuntimeException("Producto no encontrado");
+        }
+        productoRepository.deleteById(idProducto);
+    }
+
     private ProductoDTO convertToDTO(Producto c) {
         ProductoDTO dto = new ProductoDTO();
         dto.setIdProducto(c.getIdProducto());
