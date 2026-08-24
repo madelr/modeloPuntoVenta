@@ -56,7 +56,8 @@ public class ClienteController {
             @RequestBody ClienteDTO clienteDTO) {
         try {
             clienteService.actualizar(idCliente, clienteDTO);
-            return ResponseEntity.ok(new MessageResponse("Cliente actualizado con éxito"));
+            return ResponseEntity
+                    .ok(new MessageResponse("Cliente actualizado con éxito"));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new MessageResponse("Error al actualizar el cliente"));
@@ -67,8 +68,9 @@ public class ClienteController {
     public ResponseEntity<MessageResponse> anularCliente(@PathVariable Integer idCliente,
             @RequestBody ClienteDTO clienteDTO) {
         try {
-            clienteService.anularCliente(idCliente);
-            return ResponseEntity.ok(new MessageResponse("Cliente anulado con éxito"));
+            clienteService.anular(idCliente, clienteDTO);
+            return ResponseEntity
+                    .ok(new MessageResponse("Cliente anulado con éxito"));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new MessageResponse("Error al anular el cliente"));
@@ -78,12 +80,13 @@ public class ClienteController {
     @DeleteMapping("/{idCliente}")
     public ResponseEntity<MessageResponse> eliminarCliente(@PathVariable Integer idCliente) {
         try {
-            clienteService.eliminar(idCliente);
-            return ResponseEntity.ok(new MessageResponse("Cliente eliminado con éxito"));
+            clienteRepository.deleteById(idCliente);
+            return ResponseEntity
+                    .ok(new MessageResponse("Cliente eliminado con éxito"));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new MessageResponse("Error al eliminar el cliente " + e.getMessage()));
+                    .body(
+                            new MessageResponse("Error al eliminar el cliente"));
         }
     }
-
 }

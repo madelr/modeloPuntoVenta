@@ -39,19 +39,4 @@ public class CategoriaController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCategoria(@PathVariable Integer id) {
-        categoriaService.eliminarCantegoria(id);
-    }
-
-    @PutMapping("anular/{id}")
-    public CategoriaDTO anularCategoria(@PathVariable Integer id) {
-        return categoriaService.anularCategoria(id);
-    }
-
-    @PutMapping("modificar/{id}")
-    public CategoriaDTO modificarCategoria(@PathVariable Integer id, @RequestBody CategoriaDTO categoriaDTO) {
-        return categoriaService.modificarCategoria(id, categoriaDTO);
-    }
 }

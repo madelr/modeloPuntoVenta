@@ -45,8 +45,8 @@ public class ClienteService {
         if (dto.getNombre() != null) {
             clienteExistente.setNombre(dto.getNombre());
         }
-        if (dto.getApellido() != null) {
-            clienteExistente.setApellido(dto.getApellido());
+        if (dto.getEstado() != null) {
+            clienteExistente.setEstado(dto.getEstado());
         }
         if (dto.getEmail() != null) {
             clienteExistente.setEmail(dto.getEmail());
@@ -54,14 +54,17 @@ public class ClienteService {
         if (dto.getTelefono() != null) {
             clienteExistente.setTelefono(dto.getTelefono());
         }
+        if (dto.getFechaRegistro() != null) {
+            clienteExistente.setFechaRegistro(dto.getFechaRegistro());
+        }
         return convertToDTO(clienteRepository.save(clienteExistente));
     }
 
-    public ClienteDTO anularCliente(Integer idCliente) {
-        Cliente cliente = clienteRepository.findById(idCliente)
+    public ClienteDTO anular(Integer idCliente, ClienteDTO dto) {
+        Cliente clienteExistente = clienteRepository.findById(idCliente)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente no encontrado"));
-        cliente.setEstado(false);
-        return convertToDTO(clienteRepository.save(cliente));
+        clienteExistente.setEstado(false);
+        return convertToDTO(clienteRepository.save(clienteExistente));
     }
 
     public void eliminar(Integer idCliente) {
