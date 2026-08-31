@@ -9,5 +9,9 @@ import org.springframework.stereotype.Repository;
 public interface CategoriaRepository extends JpaRepository<Categoria, Integer> {
     List<Categoria> findByEstadoTrueOrderByIdCategoriaDesc();
 
-    boolean existsByNombreIgnoreCase(String nombre);
+    List<Categoria> findByEstadoTrue();
+
+    List<Categoria> findByEstadoTrueAndNombreContainingIgnoreCase(String nombre);
+
+    List<Categoria> findTop2ByEstadoTrueAndNombreContainingIgnoreCase(String nombre);
 }

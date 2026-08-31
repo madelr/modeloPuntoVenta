@@ -3,9 +3,14 @@ package com.punto.venta.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
+import com.punto.venta.dto.ClienteDTO;
+import com.punto.venta.dto.ProductoCategoriaDTO;
 import com.punto.venta.dto.ProductoDTO;
+import com.punto.venta.entity.Cliente;
 import com.punto.venta.entity.Producto;
 import com.punto.venta.repository.ProductoRepository;
 
@@ -23,6 +28,38 @@ public class ProductoService {
                 .stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
+    }
+
+    public List<ProductoDTO> mostrarActivos() {
+        return productoRepository.findByEstadoTrue()
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<ProductoDTO> mostrarActivosOrden() {
+        return productoRepository.findByEstadoTrueOrderByIdProductoDesc()
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<ProductoDTO> mostrarActivosOrdenTop5() {
+        return productoRepository.findTop5ByEstadoTrueOrderByIdProductoDesc()
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<ProductoDTO> filtroNombre(String nombre) {
+        return productoRepository.findByNombreContainingIgnoreCaseAndEstadoTrue(nombre)
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<ProductoCategoriaDTO> listarProductoConCategoria() {
+        return productoRepository.mostrarProductoConCategoria();
     }
 
     public ProductoDTO crear(ProductoDTO dto) {
@@ -56,6 +93,13 @@ public class ProductoService {
             throw new RuntimeException("Producto no encontrado");
         }
         productoRepository.deleteById(idProducto);
+    }
+
+    public ProductoDTO anular(Integer idProducto, ProductoDTO dto) {
+        Producto productoExistente = productoRepository.findById(idProducto)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado"));
+        productoExistente.setEstado(false);
+        return convertToDTO(productoRepository.save(productoExistente));
     }
 
     private ProductoDTO convertToDTO(Producto c) {

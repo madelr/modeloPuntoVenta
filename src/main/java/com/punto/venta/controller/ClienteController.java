@@ -40,6 +40,16 @@ public class ClienteController {
         return clienteService.listarTodos();
     }
 
+    @GetMapping("/activos")
+    public List<ClienteDTO> mostrarActivos() {
+        return clienteService.mostrarActivos();
+    }
+
+    @GetMapping("/filtroNombre")
+    public List<ClienteDTO> filtroNombre(@RequestParam String nombre) {
+        return clienteService.filtroNombre(nombre);
+    }
+
     @PostMapping
     public ResponseEntity<MessageResponse> crearCliente(@RequestBody ClienteDTO clienteDTO) {
         try {

@@ -29,6 +29,20 @@ public class ClienteService {
                 .collect(Collectors.toList());
     }
 
+    public List<ClienteDTO> mostrarActivos() {
+        return clienteRepository.findByEstadoTrue()
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<ClienteDTO> filtroNombre(String nombre) {
+        return clienteRepository.findByNombreContainingIgnoreCaseAndEstadoTrue(nombre)
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
     public ClienteDTO crear(ClienteDTO dto) {
         boolean duplicado = clienteRepository
                 .existsByNombreIgnoreCaseAndApellidoIgnoreCase(dto.getNombre(),

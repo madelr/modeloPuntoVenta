@@ -21,11 +21,34 @@ public class CategoriaService {
                 .collect(Collectors.toList());
     }
 
+    public List<CategoriaDTO> mostrarActivos() {
+        return categoriaRepository.findByEstadoTrue()
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<CategoriaDTO> mostrarActivosFiltro(String nombre) {
+        return categoriaRepository
+                .findByEstadoTrueAndNombreContainingIgnoreCase(nombre)
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<CategoriaDTO> mostrarActivosFiltroTop2(String nombre) {
+        return categoriaRepository
+                .findTop2ByEstadoTrueAndNombreContainingIgnoreCase(nombre)
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
     public CategoriaDTO crearCategoria(CategoriaDTO dto) {
-        boolean duplicado = categoriaRepository.existsByNombreIgnoreCase(dto.getNombre());
-        if (duplicado) {
-            throw new RuntimeException("La categoria ya existe");
-        }
+        // boolean duplicado = categoriaRepository.existsById(dto.getNombre());
+        // if (duplicado) {
+        // throw new RuntimeException("La categoria ya existe");
+        // }
         return convertToDTO(categoriaRepository.save(convertToEntity(dto)));
     }
 

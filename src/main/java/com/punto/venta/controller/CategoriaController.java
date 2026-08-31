@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.punto.venta.dto.CategoriaDTO;
+import com.punto.venta.dto.ClienteDTO;
 import com.punto.venta.dto.MessageResponse;
 import com.punto.venta.service.CategoriaService;
 import java.util.List;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/categorias")
@@ -26,6 +28,21 @@ public class CategoriaController {
     @GetMapping
     public List<CategoriaDTO> getAllCategorias() {
         return categoriaService.findAll();
+    }
+
+    @GetMapping("/mostrarActivos")
+    public List<CategoriaDTO> mostrarActivos() {
+        return categoriaService.mostrarActivos();
+    }
+
+    @GetMapping("/mostrarActivosFiltro")
+    public List<CategoriaDTO> mostrarActivosFiltro(@RequestParam String nombre) {
+        return categoriaService.mostrarActivosFiltro(nombre);
+    }
+
+    @GetMapping("/mostrarActivosFiltroTop")
+    public List<CategoriaDTO> mostrarActivosFiltroTop2(@RequestParam String nombre) {
+        return categoriaService.mostrarActivosFiltroTop2(nombre);
     }
 
     @PostMapping
