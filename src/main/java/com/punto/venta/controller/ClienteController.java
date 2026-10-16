@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.punto.venta.dto.ClienteDTO;
+import com.punto.venta.dto.ClientePedidoDTO;
+import com.punto.venta.dto.ClientePedidoDetalleDTO;
 import com.punto.venta.dto.MessageResponse;
 import com.punto.venta.repository.ClienteRepository;
 import com.punto.venta.service.ClienteService;
@@ -43,6 +45,16 @@ public class ClienteController {
     @GetMapping("/activos")
     public List<ClienteDTO> mostrarActivos() {
         return clienteService.mostrarActivos();
+    }
+
+    @GetMapping("/reporteClientePedido")
+    public List<ClientePedidoDTO> reporteClientePedido() {
+        return clienteService.reportePedidosPorCliente();
+    }
+
+    @GetMapping("/reporteClientePedidoDetalle")
+    public List<ClientePedidoDetalleDTO> reporteClientePedidoDetalle() {
+        return clienteService.reportePedidosPorClienteDetalle();
     }
 
     @GetMapping("/filtroNombre")

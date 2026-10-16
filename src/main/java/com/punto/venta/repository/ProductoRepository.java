@@ -6,7 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.punto.venta.dto.GraficaProductoCategoriaDTO;
 import com.punto.venta.dto.ProductoCategoriaDTO;
+import com.punto.venta.dto.ProductoCategoriaRDTO;
+import com.punto.venta.dto.ReporteProductoCategoriaDTO;
 import com.punto.venta.entity.Cliente;
 import com.punto.venta.entity.Producto;
 
@@ -25,4 +28,16 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer> {
     List<Producto> findByEstadoTrueOrderByIdProductoDesc();
 
     List<Producto> findTop5ByEstadoTrueOrderByIdProductoDesc();
+
+    @Query("Select new com.punto.venta.dto.GraficaProductoCategoriaDTO(c.nombre as nombre, count(p.idProducto) as cantidad) from Producto p"+
+    "  join p.idCategoria c where p.estado=true group by c.nombre")
+    List<GraficaProductoCategoriaDTO> mostrarProductoPorCategoria();
+
+    @Query("Select new com.punto.venta.dto.ReporteProductoCategoriaDTO(p.nombre as nombreProducto,c.nombre as nombreCategoria) from Producto p "+
+        " join p.idCategoria c where p.estado=true")
+        List<ReporteProductoCategoriaDTO>reporteProductoCategoria();
+
+      @Query("Select new com.punto.venta.dto.ProductoCategoriaRDTO(p.nombre as nombreProducto,c.nombre as nombreCategoria) from Producto p join p.idCategoria c where p.estado=true")
+      List<ProductoCategoriaRDTO>productoCategoriaReporte();
+
 }

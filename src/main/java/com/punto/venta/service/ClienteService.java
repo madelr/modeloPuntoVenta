@@ -10,6 +10,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.punto.venta.dto.CategoriaDTO;
 import com.punto.venta.dto.ClienteDTO;
+import com.punto.venta.dto.ClientePedidoDTO;
+import com.punto.venta.dto.ClientePedidoDetalleDTO;
 import com.punto.venta.entity.Categoria;
 import com.punto.venta.entity.Cliente;
 import com.punto.venta.repository.ClienteRepository;
@@ -41,6 +43,14 @@ public class ClienteService {
                 .stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
+    }
+
+    public List<ClientePedidoDTO> reportePedidosPorCliente() {
+        return clienteRepository.mostrarPedidosPorCliente();
+    }
+
+    public List<ClientePedidoDetalleDTO> reportePedidosPorClienteDetalle() {
+        return clienteRepository.mostrarPedidosPorClienteDetalle();
     }
 
     public ClienteDTO crear(ClienteDTO dto) {

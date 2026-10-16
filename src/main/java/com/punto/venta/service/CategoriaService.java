@@ -22,7 +22,7 @@ public class CategoriaService {
     }
 
     public List<CategoriaDTO> mostrarActivos() {
-        return categoriaRepository.findByEstadoTrue()
+        return categoriaRepository.findByEstadoTrueOrderByIdCategoriaDesc()
                 .stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());

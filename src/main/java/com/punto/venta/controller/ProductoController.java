@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.punto.venta.dto.ClienteDTO;
+import com.punto.venta.dto.GraficaProductoCategoriaDTO;
 import com.punto.venta.dto.MessageResponse;
 import com.punto.venta.dto.ProductoCategoriaDTO;
+import com.punto.venta.dto.ProductoCategoriaRDTO;
 import com.punto.venta.dto.ProductoDTO;
+import com.punto.venta.dto.ReporteProductoCategoriaDTO;
 import com.punto.venta.entity.Producto;
 import com.punto.venta.repository.ProductoRepository;
 import com.punto.venta.service.ProductoService;
@@ -66,6 +69,18 @@ public class ProductoController {
         return productoService.listarProductoConCategoria();
     }
 
+    @GetMapping("/productoCategoriaReporte")
+    public List<ProductoCategoriaRDTO> listarProductoCategoriaR(){
+        return productoService.productoCategoriaReporte();
+    }
+    @GetMapping("/graficaProductoCategoria")
+    public List<GraficaProductoCategoriaDTO> graficaProductoCategoriaDTOs() {
+        return productoService.listarProductoPorCategoria();
+    }
+      @GetMapping("/reporteProductoCategoria")
+    public List<ReporteProductoCategoriaDTO> reporteProductoCategoria() {
+        return productoService.reporteProductoCategoria();
+    }
     @PostMapping
     public ResponseEntity<MessageResponse> crearProducto(@RequestBody ProductoDTO productoDTO) {
         try {

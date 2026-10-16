@@ -8,8 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.punto.venta.dto.ClienteDTO;
+import com.punto.venta.dto.GraficaProductoCategoriaDTO;
 import com.punto.venta.dto.ProductoCategoriaDTO;
+import com.punto.venta.dto.ProductoCategoriaRDTO;
 import com.punto.venta.dto.ProductoDTO;
+import com.punto.venta.dto.ReporteProductoCategoriaDTO;
 import com.punto.venta.entity.Cliente;
 import com.punto.venta.entity.Producto;
 import com.punto.venta.repository.ProductoRepository;
@@ -57,11 +60,19 @@ public class ProductoService {
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
-
+    public List<GraficaProductoCategoriaDTO> listarProductoPorCategoria() {
+        return productoRepository.mostrarProductoPorCategoria();
+    }
     public List<ProductoCategoriaDTO> listarProductoConCategoria() {
         return productoRepository.mostrarProductoConCategoria();
     }
 
+    public List<ReporteProductoCategoriaDTO> reporteProductoCategoria() {
+        return productoRepository.reporteProductoCategoria();
+    }
+    public List<ProductoCategoriaRDTO>productoCategoriaReporte(){
+        return productoRepository.productoCategoriaReporte();
+    }
     public ProductoDTO crear(ProductoDTO dto) {
         boolean duplicado = productoRepository.existsByNombreIgnoreCase(dto.getNombre());
         if (duplicado) {
